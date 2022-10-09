@@ -1,7 +1,6 @@
 import sqlite3
 import hashlib
 import arabic_reshaper
-from bidi.algorithm import get_display
 
 con = sqlite3.connect('factory.db')
 
@@ -107,13 +106,14 @@ def doPurchases(purchasesValue,clientName,itemCode,itemAmount):
     newAmount = amount - itemAmount
 
     mycursor.execute("update clients set accountValue = ? where name = ?",(newAccountValue,clientName))
-    mycursor.execute("pip3 freeze > requirements.txt products set amount = ? where id = ?",(newAmount,itemCode))
-    con.commit()
+    mycursor.execute("update products set amount = ? where id = ?",(newAmount,itemCode))
 
     mycursor.execute("select id from clients where name=?",(clientName,))
     id = mycursor.fetchone()
     clientId = id[0]
     mycursor.execute("Insert or ignore into  purchases values (?,?,?)",(clientId,itemCode,purchasesValue))
+
+    con.commit()
 
     print("your purchase was all set\nBuy More!\n")
 

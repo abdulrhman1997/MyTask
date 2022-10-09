@@ -40,11 +40,14 @@ def toBuy(clientName):
         while True:
             itemCode = input('Enter the code of the item you that you would like to buy: ')
             itemCode = int(itemCode)
+            theAvailableAmount = None
 
-            if(itemCode in range(1,5)):
+            if(itemCode not in range(1,5)):
                 print("the Entered code is incorrect, please try again")
                 continue
-            if(checkAmount(itemCode)==0):
+            else:
+                theAvailableAmount = checkAmount(itemCode)
+            if(theAvailableAmount==0):
                 print("Sorry to tell you that! but the choosen Item has run out!, would you like to buy another thing!?")
             else:
                 break
@@ -53,15 +56,16 @@ def toBuy(clientName):
             itemAmount = input('Enter the amount of the item that you have choosen: ')
             itemAmount = int(itemAmount)
 
-            if(itemAmount>checkAmount(itemCode)):
+            
+            if(itemAmount>theAvailableAmount):
                 answer = print("the wanted amount isn't Availabe right now!, there's only {} pieces are left, would you like to order it all? answer with yes if that so".format(checkAmount(itemCode)))
                 if(answer == 'yes'):
-                    totalPrice = calculate(productId=itemCode,amount=checkAmount(itemCode))
+                    totalPrice = calculate(productId=itemCode,amount=theAvailableAmount)
                     if(clientAccount(client=clientName)<totalPrice):
                         print("Sorry! you can't Afford that!")
                         break
                     else:
-                        doPurchases(purchasesValue=totalPrice,clientName=clientName,itemCode=itemCode,itemAmount=checkAmount(itemCode))
+                        doPurchases(purchasesValue=totalPrice,clientName=clientName,itemCode=itemCode,itemAmount=theAvailableAmount)
                         break
                 else:
                     break
