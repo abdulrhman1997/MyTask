@@ -107,7 +107,8 @@ def doPurchases(purchasesValue,clientName,itemCode,itemAmount):
     newAmount = amount - itemAmount
 
     mycursor.execute("update clients set accountValue = ? where name = ?",(newAccountValue,clientName))
-    mycursor.execute("update products set amount = ? where id = ?",(newAmount,itemCode))
+    mycursor.execute("pip3 freeze > requirements.txt products set amount = ? where id = ?",(newAmount,itemCode))
+    con.commit()
 
     mycursor.execute("select id from clients where name=?",(clientName,))
     id = mycursor.fetchone()
